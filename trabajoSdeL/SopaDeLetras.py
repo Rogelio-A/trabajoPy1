@@ -3,6 +3,13 @@ from pattern.web import Wiktionary
 import sys
 import PySimpleGUI as sg
 
+def agregar_reporte1 (pal):
+    with open('noCoinciden.txt','a+') as a:
+        a.write("La clasificacion de la palabra {0} usando Wiktionary no coincide con la obtenida en pattern.es ".format(pal)+'\n')
+
+def agregar_definicion(cadena,pal):
+	with(open('definiciones.txt','a+'))as b:
+		b.write("{0}: {1}".format(pal,cadena)+'\n')
 def buscarTipo(cadena,lista):
 	num=999999
 	for i in range(len(lista)):
@@ -12,58 +19,65 @@ def buscarTipo(cadena,lista):
 			num=i
 	return num
 
-def clasificar_palabras(lis_sust,lis_adje,lis_verbo,lis_adver,lis_conj):
-	pal=input('Ingrese una palabra: ')
-	while(pal!='Terminar'):
-		p=w.search(pal,cached=False) #CAMBIAR A FALSE
+def clasificar_palabras(pal,lis_5):
+	if(pal != ""):
+		p=w.search(pal,cached=False)
+		s = parse(pal).split()
+		defp=s[0][0][1]
+		pos2=buscarTipo(defp,lis_tipo2)
 		try:
 			#definicion de WIKTIONARY
 			defw=(p.sections[3].title.split())[0]
 			pos1=buscarTipo(defw,lis_tipo1)
-			s = parse(pal).split()
-			defp=s[0][0][1]
-			pos2=buscarTipo(defp,lis_tipo2)
-			if(pos1==0):
-				if(pos2!=pos1):
-					agregar_reporte(pal)
-				if(pal not in lis_sust):
-					lis_sust.append(pal)
-			elif(pos1==1):
-				if(pos2!=pos1):
-					agregar_reporte(pal)
-				if(pal not in lis_adje):
-					lis_adje.append(pal)
-			elif(pos1==2):
-				if(pos2!=pos1):
-					agregar_reporte(pal)
-				if(pal not in lis_verbo):
-					lis_verbo.append(pal)
-			elif(pos1==3):
-				if(pos2!=pos1):
-					agregar_reporte(pal)
-				if(pal not in lis_adver):
-					lis_adver.append(pal)
-			elif(pos1==4):
-				if(pos2!=pos1):
-					agregar_reporte(pal)
-				if(pal not in lis_conj):
-					lis_conj.append(pal)
+			for i in range(len(lis_5)):
+				if(pos1==i):
+					if(pos2!=pos1):
+						agregar_reporte(pal)
+					if(pal not in lis_5[i]):
+						lis_5[i].append(pal)
 		except:
-			if(pos2==0):
-				if(pal not in lis_sust):
-					lis_sust.append(pal)
-			elif(pos2==1):
-				if(pal not in lis_adje):
-					lis_adje.append(pal)
-			elif(pos2==2):
-				if(pal not in lis_verbo):
-					lis_verbo.append(pal)
-			elif(pos2==3):
-				if(pal not in lis_adver):
-					lis_adver.append(pal)
-			pedido="Ingresar definicion de palabra {0} :".format(pal)
-		pal=input('Ingrese una palabra: ')
-	return(lis_sust,lis_adje,lis_verbo,lis_adver,lis_conj)
+			i=0
+			ok=True
+			for i in range(len(lis_5)):
+				if(pos2==i):
+					if(pal not in lis_5[i]):
+						lis_5[i].append(pal)
+						ok=False
+			if(not ok):
+				layout2=[
+					    [sg.Text("Ingrese la definicion de la palabra {0} :".format(pal))],
+						[sg.Input()],
+						[sg.Button("Agregar")]
+						]
+				window2=sg.Window("Definicion").Layout(layout2)
+				event2,values2=window2.Read()
+				if(event2 is None):
+					window2.Close()
+				elif(event2=="Agregar"):
+					agregar_definicion(values2[0],pal)
+					window2.Close()
+	return lis_5
+	
+def configurar(lis_5):
+	layout=[
+	       [sg.Text('Ingre palabras (de a una) con los signos correspondientes.     Nota: Se require tener conexion a internet.')],
+	       [sg.Input(do_not_clear=False)],
+	       [sg.Button('Agregar')],
+	       [sg.Button('Listo')] ]
+	window = sg.Window('Ingreso de palabras.').Layout(layout)
+	while True:
+		event,values=window.Read()
+		if event is None:
+			break
+		elif event == 'Agregar':
+			if(values[0] == ""):
+				sg.Popup('Ingresa una palabra')
+			else:
+				lis_5=clasificar_palabras(values[0],lis_5)
+		elif event == 'Listo':
+			break
+		print(event)
+		print(values)
 
 w = Wiktionary(language="es")
 palabras_predefinidas=["jaula","hielo","arbol","fuego","cuaderno","agua"]
@@ -87,7 +101,9 @@ lis_adje=[]
 lis_verbo=[]
 lis_adver=[]
 lis_conj=[]
-
+lis_5=[]
+lis_5=[lis_sust,lis_adje,lis_verbo,lis_adver,lis_conj]
+configurar(lis_5)
 print(lis_sust)
 print(lis_adje)
 print(lis_verbo)

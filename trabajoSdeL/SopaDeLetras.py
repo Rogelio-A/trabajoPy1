@@ -19,7 +19,8 @@ def buscarTipo(cadena,lista):
 			num=i
 	return num
 
-def clasificar_palabras(pal,lis_5):
+def clasificar_palabra(pal,lis_5):
+	w = Wiktionary(language="es")
 	if(pal != ""):
 		p=w.search(pal,cached=False)
 		s = parse(pal).split()
@@ -57,12 +58,20 @@ def clasificar_palabras(pal,lis_5):
 					agregar_definicion(values2[0],pal)
 					window2.Close()
 	return lis_5
-	
-def configurar(lis_5):
+
+def eliminar_palabra(cadena,lis_5,lis_tipo1):
+	i=0
+	for i in range(len(lis_5)):
+		if(cadena in lis_5[i]):
+			lis_5[i].remove(cadena)
+			sg.Popup("Se elimino un "+lis_tipo1[i])
+	return lis_5
+			
+def configurar(lis_5,lis_tipo1):
 	layout=[
-	       [sg.Text('Ingre palabras (de a una) con los signos correspondientes.     Nota: Se require tener conexion a internet.')],
+	       [sg.Text('Ingrese palabras (de a una) con los signos correspondientes.     Nota: Se require tener conexion a internet.')],
 	       [sg.Input(do_not_clear=False)],
-	       [sg.Button('Agregar')],
+	       [sg.Button('Agregar'),sg.Button('Eliminar')],
 	       [sg.Button('Listo')] ]
 	window = sg.Window('Ingreso de palabras.').Layout(layout)
 	while True:
@@ -73,13 +82,17 @@ def configurar(lis_5):
 			if(values[0] == ""):
 				sg.Popup('Ingresa una palabra')
 			else:
-				lis_5=clasificar_palabras(values[0],lis_5)
+				lis_5=clasificar_palabra(values[0],lis_5)
+		elif event == 'Eliminar':
+			if(values[0] == ""):
+				sg.Popup('Ingresa una palabra')
+			else:
+				lis_5=eliminar_palabra(values[0],lis_5,lis_tipo1)
 		elif event == 'Listo':
 			break
 		print(event)
 		print(values)
 
-w = Wiktionary(language="es")
 palabras_predefinidas=["jaula","hielo","arbol","fuego","cuaderno","agua"]
 
 #print(help(w))
@@ -92,8 +105,7 @@ lis_tipo2=[
          ['RB','RBR','RBS'],                     #Adverbio
          ['IN']                                  #Conjuncion
         ]
-pal="casa"
-
+colores=['red','black','white','green','blue','yeloow','purple','pink','orange']
 #print(dir(p))
 print('##############')
 lis_sust=[]
@@ -103,7 +115,7 @@ lis_adver=[]
 lis_conj=[]
 lis_5=[]
 lis_5=[lis_sust,lis_adje,lis_verbo,lis_adver,lis_conj]
-configurar(lis_5)
+configurar(lis_5,lis_tipo1)
 print(lis_sust)
 print(lis_adje)
 print(lis_verbo)

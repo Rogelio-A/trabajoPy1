@@ -1,1 +1,9 @@
-el archivo .py se encuentra dentro de la carpeta "trabajoSdeL"
+El archivo .py se encuentra dentro de la carpeta "trabajoSdeL".
+Integrantes: 2
+-------------------------------
+Alumno: Alarcón Rogelio
+Legajo: 14600/5
+--------------------------------
+Alumno: Girón Nahuel
+Legajo: 10653/2
+---------------------------------

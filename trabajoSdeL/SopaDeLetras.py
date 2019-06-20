@@ -24,6 +24,7 @@ def clasificar_palabra(pal,lis_5):
 	if(pal != ""):
 		p=w.search(pal,cached=False)
 		s = parse(pal).split()
+		#definicion de pattern.es
 		defp=s[0][0][1]
 		pos2=buscarTipo(defp,lis_tipo2)
 		try:
@@ -90,13 +91,8 @@ def configurar(lis_5,lis_tipo1):
 				lis_5=eliminar_palabra(values[0],lis_5,lis_tipo1)
 		elif event == 'Listo':
 			break
-		print(event)
-		print(values)
 
 palabras_predefinidas=["jaula","hielo","arbol","fuego","cuaderno","agua"]
-
-#print(help(w))
-#print("ingrese una palabra: ")
 lis_tipo1=['Sustantivo','Adjetivo','Verbo','Adverbio','Conjuncion']
 lis_tipo2=[
          ['NN','NNS','NNP','NNPS'],              #Sustantivo
@@ -106,7 +102,6 @@ lis_tipo2=[
          ['IN']                                  #Conjuncion
         ]
 colores=['red','black','white','green','blue','yeloow','purple','pink','orange']
-#print(dir(p))
 print('##############')
 lis_sust=[]
 lis_adje=[]

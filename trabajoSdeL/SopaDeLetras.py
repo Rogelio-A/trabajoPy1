@@ -102,7 +102,6 @@ lis_tipo2=[
          ['IN']                                  #Conjuncion
         ]
 colores=['red','black','white','green','blue','yeloow','purple','pink','orange']
-print('##############')
 lis_sust=[]
 lis_adje=[]
 lis_verbo=[]
@@ -111,6 +110,3 @@ lis_conj=[]
 lis_5=[]
 lis_5=[lis_sust,lis_adje,lis_verbo,lis_adver,lis_conj]
 configurar(lis_5,lis_tipo1)
-print(lis_sust)
-print(lis_adje)
-print(lis_verbo)

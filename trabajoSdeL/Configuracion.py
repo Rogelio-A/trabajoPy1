@@ -47,13 +47,15 @@ def clasificar_palabra(pal,dic_tipo1,lis_tipo2):
 						agregar_reporte(pal)
 					if(pal not in dic_tipo1[claveD]):
 						dic_tipo1[claveD].append(pal)
+		#si no esta en WIKTIONARY
 		except:
 			i=0
 			ok=True
-			for i in range(len(lis_5)):
-				if(pos2==i):
-					if(pal not in lis_5[i]):
-						lis_5[i].append(pal)
+			lista=list(dic_tipo1.keys())
+			for  i in range(len((lista))):
+				if(posL==i):
+					if(pal not in dic_tipo1[lista[i]]):
+						dic_tipo1[lista[i]].append(pal)
 						ok=False
 			if(not ok):
 				layout2=[

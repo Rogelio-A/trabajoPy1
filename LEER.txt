@@ -7,3 +7,10 @@ Legajo: 14600/5
 Alumno: Girón Nahuel
 Legajo: 10653/2
 ---------------------------------
+
+La función "configurar()" devueve 4 elementos, estos son:
+
+dic_tipo1: es un diccionario que tiene como claves los tipos de palabras(sustantivo, adejetivo y verbo), y cada una contiene una lista con las palabras correspondientes a cada tipo.
+Cpalabras_elegidas: es un diccionario que tiene como claves los tipos de palabras(sustantivo, adjetivo y verbo), y cada una contiene la cantidad de palabras que se eligieron para ser utilizadas en el juego.
+colores: es un diccionario que tiene como claves los tipos de palabras (sustantivo, adjetivo y verbo) y cada una tendra un color para representar cada tipo de palabra.
+ayuda: es un tipo de dato boolean, si el usuario marca la casilla sera TRUE, caso contrario FALSE.
